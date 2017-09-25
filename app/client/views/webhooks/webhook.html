@@ -1,0 +1,16 @@
+<template name="webhook">
+    <form id="webhook-form-add">
+        <div>
+            <label>Endpoint</label>
+            <input type="text" name="endpoint">
+        </div>
+        <div>
+            <label>Service</label>
+            <select name="service">
+                {{#each services}}
+                    <option class="{{id}}">{{name}}</option>
+                {{/each }}
+            </select>
+        </div>
+    </form>
+</template>
