@@ -1,0 +1,9 @@
+<template name="webhook">
+    <div>
+        <h2>Your webhooks</h2>
+        {{#each webhooks}}
+            <p>{{endpoint}} subscribed to  {{service}}</p>
+        {{/each}}
+    </div>
+    {{> quickForm collection="WebHooks" id="insertWebhook" type="insert"}}
+</template>

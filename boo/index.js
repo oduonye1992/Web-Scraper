@@ -50,7 +50,7 @@ var FastText=function(params) {
         var path = './fasttext';
         this.child = this.exec('fasttext', path, ['predict', this._options.model, '-'], {}, callback);
         //m.stdout.pipe(process.stdout);
-    };//load
+    };  //load
     this.send = function(data) {
         this.child.stdin.setEncoding('utf-8');
         this.child.stdin.write( data + '\r\n' );
@@ -88,6 +88,6 @@ app.get('/', function (req, res) {
 });
 
 app.listen(3930, function () {
-    console.log('Example app listening on port 3930!')
+    console.log('Example boom listening on port 3930!')
 });
 

@@ -17,12 +17,19 @@ es5-shim@4.6.15                # ECMAScript 5 compatibility for older browsers
 ecmascript              # Enable ECMAScript2015+ syntax in app code
 shell-server@0.2.4            # Server-side component of the `meteor shell` command
 
-insecure@1.0.7                # Allow all DB writes from clients (for prototyping)
-accounts-ui
-accounts-password
 kadira:flow-router
 kadira:blaze-layout
-twbs:bootstrap
-aldeed:collection2-core@2.0.0
-aldeed:autoform
-dburles:collection-helpers
+erasaur:meteor-lodash
+stolinski:stylus-multi
+fortawesome:fontawesome
+spiderable
+fastclick
+raix:handlebar-helpers
+aldeed:collection2
+aldeed:autoform@5.8.1
+accounts-ui
+accounts-password
+matb33:bootstrap-glyphicons
+meteortoys:allthings
+
+gwendall:auth-client-callbacks

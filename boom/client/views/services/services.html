@@ -1,0 +1,9 @@
+<template name="services">
+    <div>
+        <h2>Your services</h2>
+        {{#each services}}
+            <p>{{name}}</p>
+        {{/each}}
+    </div>
+    {{> quickForm collection="Services" id="insertServices" type="insert"}}
+</template>
