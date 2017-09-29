@@ -15,6 +15,7 @@
     "bluebird": "^3.5.0",
     "cheerio": "latest",
     "express": "latest",
+    "mongodb": "^2.2.31",
     "request": "latest"
   },
   "author": "Daniel Oduonye",

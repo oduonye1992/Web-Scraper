@@ -1,4 +1,4 @@
-ScrapeData  = new Meteor.Collection('webhook');
+ScrapeData  = new Meteor.Collection('data');
 
 ScrapeData.allow({
     insert : function(userId, doc){

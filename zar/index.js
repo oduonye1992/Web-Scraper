@@ -6,8 +6,12 @@ var app     = express();
 var async = require('asyncawait/async');
 var await = require('asyncawait/await');
 var Promise = require('bluebird');
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
+var ObjectId = require('mongodb').ObjectID;
+var db = null;
 
-function Scraper(conf){
+function Scraper(serviceId, conf){
     var configuration = conf;
     var scrapeData = [];
     var loadPage = function(url){
@@ -27,13 +31,22 @@ function Scraper(conf){
             return sel.parentSelectors.indexOf(nodeID) > -1
         });
     };
+    function updateService(data){
+        for (var key in data) {
+            db.collection('data').insert({
+                key : key,
+                value : data[key],
+                service : serviceId
+            });
+        }
+        console.log('Updated');
+    }
     var analyzeNode = function(html, node, dataObj) {
         return new Promise(async (function(resolve, reject) {
             var $ = cheerio.load(html);
             if (node.type === 'SelectorLink'){
                 if (node.multiple){
                     if ($(node.selector).length){
-                        console.log($(node.selector).length);
                         for (var i = 0; i < $(node.selector).length; i++){
                             var sel = $(node.selector+':nth-of-type('+i+')');
                             var link = sel.attr('href');
@@ -47,6 +60,7 @@ function Scraper(conf){
                                     await(analyzeNode(linkHtml, childNode, dataObj));
                                 }));
                             } else {
+                                updateService(dataObj);
                                 scrapeData.push(dataObj);
                             }
                         }
@@ -59,6 +73,7 @@ function Scraper(conf){
                         for (var j = 0; j < $(node.selector).length; j++){
                             var sell = $(node.selector+':nth-of-type('+j+')');
                             dataObj[node.id] = sell.html();
+                            updateService(dataObj);
                             scrapeData.push(dataObj);
                         }
                     }
@@ -84,12 +99,33 @@ function Scraper(conf){
     }
 }
 
-try {
+/*try {
     var tempConf = {"_id":"nairaland","startUrl":"http://www.nairaland.com/","selectors":[{"parentSelectors":["_root"],"type":"SelectorLink","multiple":true,"id":"topics","selector":"td.featured a","delay":""},{"parentSelectors":["topics"],"type":"SelectorText","multiple":true,"id":"comments","selector":"blockquote","regex":"","delay":""}]}
     new Scraper(tempConf).start();
 } catch (e) {
     console.log(e);
 }
+function update(id, data){
+
+}*/
+
+var url = process.env.MONGO_URL;
+MongoClient.connect(url, function(err, _db) {
+    assert.equal(null, err);
+    db = _db;
+    console.log("Connected correctly to server.");
+    var cursor = db.collection('services').find();
+    console.log('Found '+cursor.count()+' records');
+    if (cursor.count() == 0) return console.log('No record');
+    cursor.forEach(function(service){
+       try {
+           new Scraper(service._id, JSON.parse(service.configuration)).start();
+       } catch (e) {
+           console.log(e);
+       }
+    });
+    //db.close();
+});
 
 app.listen('8072');
 console.log('Magic happens on port 8072');

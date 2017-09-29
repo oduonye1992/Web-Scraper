@@ -3,6 +3,9 @@ Meteor.publish('webhook', function(){
 });
 
 Meteor.publish('services', function(){
-    console.log("Publishing "+Services.find());
     return Services.find();
+});
+
+Meteor.publish('data', function(){
+    return ScrapeData.find();
 });
