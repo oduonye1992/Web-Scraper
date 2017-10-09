@@ -52,7 +52,6 @@ function Scraper(serviceId, conf){
                             var link = sel.attr('href');
                             var linkText = sel.html();
                             if (link){
-                                //console.log(node.selector + ' | ' +html.substr(0, 100));
                                 dataObj[node.id] = linkText;
                                 dataObj[node.id+'_href'] = link;
                                 var linkHtml = await(loadPage(link));
@@ -87,27 +86,11 @@ function Scraper(serviceId, conf){
     };
     return {
         start : async(function(){
-            /**
-             * Start Url
-             * Fetch html for start url
-              */
             var html = await(loadPage(configuration.startUrl));
             await(analyzeNode(html, configuration.selectors[0], {}));
-            console.log("Result is =========================");
-            console.log(scrapeData);
         })
     }
 }
-
-/*try {
-    var tempConf = {"_id":"nairaland","startUrl":"http://www.nairaland.com/","selectors":[{"parentSelectors":["_root"],"type":"SelectorLink","multiple":true,"id":"topics","selector":"td.featured a","delay":""},{"parentSelectors":["topics"],"type":"SelectorText","multiple":true,"id":"comments","selector":"blockquote","regex":"","delay":""}]}
-    new Scraper(tempConf).start();
-} catch (e) {
-    console.log(e);
-}
-function update(id, data){
-
-}*/
 
 var url = process.env.MONGO_URL;
 MongoClient.connect(url, function(err, _db) {
