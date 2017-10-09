@@ -127,7 +127,6 @@ MongoClient.connect(url, function(err, _db) {
     //db.close();
 });
 
-app.listen('8072');
-console.log('Magic happens on port 8072');
+app.listen('2018');
 
 exports = module.exports = app;
